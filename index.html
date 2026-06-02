@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetFuel - Gestão de Frota</title>
-    <script src="https://tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <script src="https://jsdelivr.net"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased">
 
@@ -294,90 +299,32 @@
         </div>
     </div>
 
-    <script>
-        function mudarAba(idAba) {
-            document.querySelectorAll('.aba-conteudo').forEach(aba => aba.classList.add('hidden'));
-            document.getElementById('aba-' + idAba).classList.remove('hidden');
+   <script>
+    const canvas = document.getElementById('chartConsumo');
 
-            document.querySelectorAll('.menu-btn').forEach(btn => {
-                btn.classList.remove('bg-orange-500/10', 'text-orange-500');
-                                btn.classList.add('text-gray-400');
-            });
-            document.getElementById('btn-' + idAba).classList.add('bg-orange-500/10', 'text-orange-500');
-        }
+    if (canvas && typeof Chart !== 'undefined') {
+        const ctx = canvas.getContext('2d');
 
-        function toggleModal(idModal, show) {
-            const modal = document.getElementById(idModal);
-            if(show) modal.classList.remove('hidden');
-            else modal.classList.add('hidden');
-        }
-
-        function salvarAbastecimento(e) {
-            e.preventDefault();
-            const placa = document.getElementById('form-placa').value.toUpperCase();
-            const motorista = document.getElementById('form-motorista').value;
-            const litros = parseFloat(document.getElementById('form-litros').value);
-            const preco = parseFloat(document.getElementById('form-preco').value);
-            const km = parseFloat(document.getElementById('form-km').value);
-
-            const valorTotal = (litros * preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            const consumo = (km / litros).toFixed(1);
-
-            const tabelaCorpo = document.getElementById('tabela-corpo');
-            const novaLinha = document.createElement('tr');
-            novaLinha.className = "hover:bg-gray-800/20";
-            novaLinha.innerHTML = `
-                <td class="py-3.5 px-2">${new Date().toLocaleDateString('pt-BR')}</td>
-                <td class="py-3.5 px-2 font-semibold text-white">${placa}</td>
-                <td class="py-3.5 px-2 text-gray-400">${motorista}</td>
-                <td class="py-3.5 px-2">${litros} L</td>
-                <td class="py-3.5 px-2 text-orange-400 font-semibold">${valorTotal}</td>
-                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">${consumo} km/L</span></td>
-            `;
-            tabelaCorpo.insertBefore(novaLinha, tabelaCorpo.firstChild);
-            toggleModal('modal-abastecimento', false);
-            e.target.reset();
-        }
-
-        function salvarVeiculo(e) {
-            e.preventDefault();
-            const placa = document.getElementById('v-placa').value.toUpperCase();
-            const modelo = document.getElementById('v-modelo').value;
-            const ano = document.getElementById('v-ano').value;
-            const cap = document.getElementById('v-cap').value;
-
-            const tbody = document.getElementById('tabela-veiculos');
-            const row = document.createElement('tr');
-            row.className = "hover:bg-gray-800/20";
-            row.innerHTML = `<td class="py-3.5 px-2 font-semibold text-white">${placa}</td><td class="py-3.5 px-2">${modelo}</td><td class="py-3.5 px-2">${ano}</td><td class="py-3.5 px-2">${cap} Litros</td>`;
-            tbody.insertBefore(row, tbody.firstChild);
-            toggleModal('modal-veiculo', false);
-            e.target.reset();
-        }
-
-        function salvarMotorista(e) {
-            e.preventDefault();
-            const nome = document.getElementById('m-nome').value;
-            const cpf = document.getElementById('m-cpf').value;
-
-            const tbody = document.getElementById('tabela-motoristas');
-            const row = document.createElement('tr');
-            row.className = "hover:bg-gray-800/20";
-            row.innerHTML = `<td class="py-3.5 px-2 font-semibold text-white">${nome}</td><td class="py-3.5 px-2 text-gray-400">${cpf}</td><td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">Ativo</span></td>`;
-            tbody.insertBefore(row, tbody.firstChild);
-            toggleModal('modal-motorista', false);
-            e.target.reset();
-        }
-
-        const ctx = document.getElementById('chartConsumo').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['BRA-2E19', 'CDE-3F25', 'FGH-4G31', 'IJK-5H37', 'LMN-6I43'],
+                labels: [
+                    'BRA-2E19',
+                    'CDE-3F25',
+                    'FGH-4G31',
+                    'IJK-5H37',
+                    'LMN-6I43'
+                ],
                 datasets: [{
                     label: 'Consumo Médio (km/L)',
                     data: [3.8, 4.1, 3.2, 4.5, 3.9],
-                    backgroundColor: ['#f97316', '#f97316', '#ef4444', '#f97316', '#f97316'],
+                    backgroundColor: [
+                        '#f97316',
+                        '#f97316',
+                        '#ef4444',
+                        '#f97316',
+                        '#f97316'
+                    ],
                     borderRadius: 6,
                     barPercentage: 0.5
                 }]
@@ -385,14 +332,35 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
                 scales: {
-                    x: { grid: { display: false }, ticks: { color: '#6b7280' } },
-                    y: { min: 2, max: 5, grid: { color: '#1f2937' }, ticks: { color: '#6b7280', stepSize: 1 } }
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    y: {
+                        min: 2,
+                        max: 5,
+                        grid: {
+                            color: '#1f2937'
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            stepSize: 1
+                        }
+                    }
                 }
             }
         });
-    </script>
-</body>
-</html>
-
+    }
+</script>  
+</body> 
+</html>     
