@@ -4,28 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetFuel - Gestão de Frota</title>
-    <!-- Tailwind CSS Versão Estável Play CDN -->
+    <!-- CDN Estável e Provado do Tailwind CSS v3 -->
     <script src="https://tailwindcss.com"></script>
-    <!-- Lucide Icons para os Ícones do Menu -->
-    <script src="https://unpkg.com"></script>
-    <!-- Chart.js para os Gráficos Responsivos -->
+    <!-- Chart.js para Gráficos -->
     <script src="https://jsdelivr.net"></script>
-    <script>
-        // Garante que o Tailwind entenda a paleta de cores customizada se necessário
-        tailwind.config = {
-            theme: {
-                extend: {}
-            }
-        }
-    </script>
+    <!-- FontAwesome para ícones garantidos sem falha de carregamento -->
+    <link rel="stylesheet" href="https://cloudflare.com">
 </head>
-<body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased selection:bg-orange-500 selection:text-white">
-
+<body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased">
 
     <!-- MENU LATERAL -->
     <aside class="w-64 bg-[#161b22] border-r border-gray-800 p-5 flex flex-col gap-6 shrink-0">
         <div class="flex items-center gap-3 px-2">
-            <div class="bg-orange-500 text-white font-bold text-xl h-10 w-10 flex items-center justify-center rounded-lg shadow-md shadow-orange-500/20">FF</div>
+            <div class="bg-orange-500 text-white font-bold text-xl h-10 w-10 flex items-center justify-center rounded-lg shadow-md">FF</div>
             <div>
                 <h1 class="font-bold text-md tracking-wide">FleetFuel</h1>
                 <p class="text-xs text-gray-500 uppercase font-semibold tracking-wider">Gestão de Frota</p>
@@ -34,32 +25,27 @@
 
         <nav class="flex flex-col gap-1 flex-1">
             <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-2 px-2">Principal</p>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm transition-all">
-                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm">
+                <i class="fa-solid fa-chart-pie w-4"></i> Dashboard
             </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
-                <i data-lucide="fuel" class="w-4 h-4"></i> Abastecimento
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
+                <i class="fa-solid fa-gas-pump w-4"></i> Abastecimento
             </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
-                <i data-lucide="clipboard-list" class="w-4 h-4"></i> Listagem
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
+                <i class="fa-solid fa-list-check w-4"></i> Listagem
             </a>
 
             <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mt-4 mb-2 px-2">Cadastros</p>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
-                <i data-lucide="truck" class="w-4 h-4"></i> Veículos
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
+                <i class="fa-solid fa-truck w-4"></i> Veículos
             </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
-                <i data-lucide="users" class="w-4 h-4"></i> Motoristas
-            </a>
-
-            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mt-4 mb-2 px-2">Análise</p>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
-                <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Relatórios
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
+                <i class="fa-solid fa-users w-4"></i> Motoristas
             </a>
         </nav>
 
         <div class="pt-4 border-t border-gray-800 text-xs text-gray-500 text-center">
-            v1.0.0 • GitHub Pages Mode
+            v1.0.0 • GitHub Pages
         </div>
     </aside>
 
@@ -73,11 +59,11 @@
                 <p class="text-sm text-gray-500">Junho 2026 • Transportadora FastCargo</p>
             </div>
             <div class="flex gap-3">
-                <button class="flex items-center gap-2 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer">
-                    <i data-lucide="download" class="w-4 h-4"></i> Exportar
+                <button class="flex items-center gap-2 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <i class="fa-solid fa-download"></i> Exportar
                 </button>
-                <button onclick="toggleModal(true)" class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-orange-600/20 cursor-pointer">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Novo Abastecimento
+                <button onclick="toggleModal(true)" class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-orange-600/20">
+                    <i class="fa-solid fa-plus"></i> Novo Abastecimento
                 </button>
             </div>
         </header>
@@ -87,7 +73,7 @@
             <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Total Abastecido (Mês)</span>
-                    <div class="bg-orange-500/10 text-orange-500 p-2 rounded-lg"><i data-lucide="fuel" class="w-4 h-4"></i></div>
+                    <div class="bg-orange-500/10 text-orange-500 p-2 rounded-lg"><i class="fa-solid fa-gas-pump"></i></div>
                 </div>
                 <h3 class="text-2xl font-bold tracking-tight">8.420 L</h3>
                 <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +12% vs mês ant.</span>
@@ -105,7 +91,7 @@
             <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Abastecimentos</span>
-                    <div class="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg"><i data-lucide="clipboard-list" class="w-4 h-4"></i></div>
+                    <div class="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg"><i class="fa-solid fa-receipt"></i></div>
                 </div>
                 <h3 class="text-2xl font-bold tracking-tight">143</h3>
                 <span class="text-xs text-red-500 font-semibold mt-1 block">↓ -3% vs mês ant.</span>
@@ -114,7 +100,7 @@
             <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Consumo Médio Frota</span>
-                    <div class="bg-purple-500/10 text-purple-500 p-2 rounded-lg"><i data-lucide="bar-chart-3" class="w-4 h-4"></i></div>
+                    <div class="bg-purple-500/10 text-purple-500 p-2 rounded-lg"><i class="fa-solid fa-chart-line"></i></div>
                 </div>
                 <h3 class="text-2xl font-bold tracking-tight">3,8 km/L</h3>
                 <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +0.2 vs mês ant.</span>
@@ -129,10 +115,8 @@
             </div>
         </section>
 
-        <!-- GRID DE ÚLTIMOS LANÇAMENTOS E ALERTAS -->
+        <!-- GRID DE ÚLTIMOS LANÇAMENTOS -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- TABELA -->
             <div class="lg:col-span-2 p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
                 <h4 class="text-md font-bold mb-4 tracking-wide text-gray-200">Últimos Abastecimentos</h4>
                 <div class="overflow-x-auto">
@@ -163,19 +147,19 @@
                                 <td class="py-3.5 px-2">391 L</td>
                                 <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 2.251,71</td>
                                 <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.9 km/L</span></td>
-                                                            </tr>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- CARD DE ALERTAS -->
+            <!-- ALERTAS -->
             <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm flex flex-col">
                 <h4 class="text-md font-bold mb-4 flex items-center gap-2 text-gray-200 tracking-wide">
-                    <i data-lucide="shield-alert" class="w-4 h-4 text-amber-500"></i> Alertas Ativos
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Alertas Ativos
                 </h4>
                 <div class="flex flex-col gap-3 flex-1">
-                    <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400 leading-relaxed">
+                                        <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400 leading-relaxed">
                         ⚠️ <strong>FGH-4G31</strong> com consumo baixo observado (3.2 km/L).
                     </div>
                     <div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 leading-relaxed">
@@ -191,9 +175,9 @@
         <div class="bg-[#161b22] border border-gray-800 rounded-xl max-w-lg w-full p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i data-lucide="fuel" class="text-orange-500"></i> Registrar Abastecimento
+                    <i class="fa-solid fa-gas-pump text-orange-500"></i> Registrar Abastecimento
                 </h3>
-                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white cursor-pointer"><i data-lucide="x"></i></button>
+                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="salvarAbastecimento(event)" class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
@@ -203,35 +187,32 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Motorista</label>
-                        <input type="text" id="form-motorista" required placeholder="Nome Completo" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <input type="text" id="form-motorista" required placeholder="Nome" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Litros Abastecidos</label>
-                        <input type="number" id="form-litros" required step="0.01" placeholder="0.00" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Litros</label>
+                        <input type="number" id="form-litros" required step="0.01" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Preço por Litro (R$)</label>
-                        <input type="number" id="form-preco" required step="0.01" placeholder="0.00" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Preço/L (R$)</label>
+                        <input type="number" id="form-preco" required step="0.01" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Km Percorrido Estimado</label>
-                    <input type="number" id="form-km" required placeholder="Ex: 1200" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Km Percorrido</label>
+                    <input type="number" id="form-km" required class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
                 </div>
                 <div class="flex justify-end gap-3 pt-4">
                     <button type="button" onclick="toggleModal(false)" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm font-medium cursor-pointer">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-500 text-sm font-medium cursor-pointer shadow-lg shadow-orange-600/10">Confirmar</button>
+                    <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-500 text-sm font-medium shadow-lg cursor-pointer">Confirmar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- SCRIPTS DE INTERAÇÃO -->
     <script>
-        lucide.createIcons();
-
         function toggleModal(show) {
             const modal = document.getElementById('modal-abastecimento');
             if(show) modal.classList.remove('hidden');
@@ -279,7 +260,6 @@
                         return context.dataIndex === 2 ? '#ef4444' : '#f97316';
                     },
                     borderRadius: 6,
-                    borderSkipped: false,
                     barPercentage: 0.5
                 }]
             },
@@ -296,3 +276,4 @@
     </script>
 </body>
 </html>
+
