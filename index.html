@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetFuel - Gestão de Frota</title>
+    <!-- Tailwind CSS para Estilização Moderna -->
+    <script src="https://jsdelivr.net"></script>
+    <!-- Lucide Icons para os Ícones do Menu -->
+    <script src="https://unpkg.com"></script>
+    <!-- Chart.js para os Gráficos Responsivos -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        /* Ajuste fino para manter o tema Dark Premium idêntico à imagem */
+        .bg-dark-sidebar { bg-color: #161b22; }
+        .bg-dark-body { bg-color: #0f1319; }
+    </style>
+</head>
+<body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased selection:bg-orange-500 selection:text-white">
+
+    <!-- MENU LATERAL -->
+    <aside class="w-64 bg-[#161b22] border-r border-gray-800 p-5 flex flex-col gap-6 shrink-0">
+        <div class="flex items-center gap-3 px-2">
+            <div class="bg-orange-500 text-white font-bold text-xl h-10 w-10 flex items-center justify-center rounded-lg shadow-md shadow-orange-500/20">FF</div>
+            <div>
+                <h1 class="font-bold text-md tracking-wide">FleetFuel</h1>
+                <p class="text-xs text-gray-500 uppercase font-semibold tracking-wider">Gestão de Frota</p>
+            </div>
+        </div>
+
+        <nav class="flex flex-col gap-1 flex-1">
+            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-2 px-2">Principal</p>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm transition-all">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
+                <i data-lucide="fuel" class="w-4 h-4"></i> Abastecimento
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
+                <i data-lucide="clipboard-list" class="w-4 h-4"></i> Listagem
+            </a>
+
+            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mt-4 mb-2 px-2">Cadastros</p>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
+                <i data-lucide="truck" class="w-4 h-4"></i> Veículos
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
+                <i data-lucide="users" class="w-4 h-4"></i> Motoristas
+            </a>
+
+            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mt-4 mb-2 px-2">Análise</p>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm transition-all">
+                <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Relatórios
+            </a>
+        </nav>
+
+        <div class="pt-4 border-t border-gray-800 text-xs text-gray-500 text-center">
+            v1.0.0 • GitHub Pages Mode
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        
+        <!-- TOPBAR -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-white">Dashboard</h2>
+                <p class="text-sm text-gray-500">Junho 2025 • Transportadora FastCargo</p>
+            </div>
+            <div class="flex gap-3">
+                <button class="flex items-center gap-2 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer">
+                    <i data-lucide="download" class="w-4 h-4"></i> Exportar
+                </button>
+                <button class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-orange-600/20 cursor-pointer">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Novo Abastecimento
+                </button>
+            </div>
+        </header>
+
+        <!-- CARDS INDICADORES -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-sm font-medium text-gray-400">Total Abastecido (Mês)</span>
+                    <div class="bg-orange-500/10 text-orange-500 p-2 rounded-lg"><i data-lucide="fuel" class="w-4 h-4"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold tracking-tight">8.420 L</h3>
+                <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +12% vs mês ant.</span>
+            </div>
+
+            <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-sm font-medium text-gray-400">Valor Total Gasto</span>
+                    <div class="bg-blue-500/10 text-blue-500 p-2 rounded-lg font-bold text-sm h-8 w-8 flex items-center justify-center">R$</div>
+                </div>
+                <h3 class="text-2xl font-bold tracking-tight">R$ 47.836</h3>
+                <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +8% vs mês ant.</span>
+            </div>
+
+            <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-sm font-medium text-gray-400">Abastecimentos</span>
+                    <div class="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg"><i data-lucide="clipboard-list" class="w-4 h-4"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold tracking-tight">143</h3>
+                <span class="text-xs text-red-500 font-semibold mt-1 block">↓ -3% vs mês ant.</span>
+            </div>
+
+            <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-sm font-medium text-gray-400">Consumo Médio Frota</span>
+                    <div class="bg-purple-500/10 text-purple-500 p-2 rounded-lg"><i data-lucide="bar-chart-3" class="w-4 h-4"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold tracking-tight">3,8 km/L</h3>
+                <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +0.2 vs mês ant.</span>
+            </div>
+        </section>
+
+        <!-- SEÇÃO DO GRÁFICO -->
+        <section class="p-6 rounded-xl border bg-[#161b22] border-gray-800 mb-8 shadow-sm">
+            <h4 class="text-md font-bold mb-6 text-gray-400 tracking-wide">Consumo por Veículo (km/L)</h4>
+            <div class="h-64 w-full relative">
+                <canvas id="chartConsumo"></canvas>
+            </div>
+        </section>
+
+        <!-- GRID DE ÚLTIMOS LANÇAMENTOS E ALERTAS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- TABELA -->
+            <div class="lg:col-span-2 p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm">
+                <h4 class="text-md font-bold mb-4 tracking-wide text-gray-200">Últimos Abastecimentos</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 text-xs font-semibold uppercase tracking-wider">
+                                <th class="py-3 px-2">Data</th>
+                                <th class="py-3 px-2">Placa</th>
+                                <th class="py-3 px-2">Motorista</th>
+                                <th class="py-3 px-2">Litros</th>
+                                <th class="py-3 px-2">Valor</th>
+                                <th class="py-3 px-2">Consumo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/50 text-gray-300">
+                            <tr class="hover:bg-gray-800/20 transition-colors">
+                                <td class="py-3.5 px-2">15/06/25</td>
+                                <td class="py-3.5 px-2 font-semibold text-white">BRA-2E19</td>
+                                <td class="py-3.5 px-2 text-gray-400">João Silva</td>
+                                <td class="py-3.5 px-2">373 L</td>
+                                <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 2.126,10</td>
+                                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.8 km/L</span></td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/20 transition-colors">
+                                <td class="py-3.5 px-2">14/06/25</td>
+                                <td class="py-3.5 px-2 font-semibold text-white">CDE-3F25</td>
+                                <td class="py-3.5 px-2 text-gray-400">Pedro Oliveira</td>
+                                <td class="py-3.5 px-2">391 L</td>
+                                <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 2.251,71</td>
+                                                                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.9 km/L</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CARD DE ALERTAS -->
+            <div class="p-5 rounded-xl border bg-[#161b22] border-gray-800 shadow-sm flex flex-col">
+                <h4 class="text-md font-bold mb-4 flex items-center gap-2 text-gray-200 tracking-wide">
+                    <i data-lucide="shield-alert" class="w-4 h-4 text-amber-500"></i> Alertas Ativos
+                </h4>
+                <div class="flex flex-col gap-3 flex-1">
+                    <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400 leading-relaxed">
+                        ⚠️ <strong>FGH-4G31</strong> com consumo baixo observado (3.2 km/L).
+                    </div>
+                    <div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 leading-relaxed">
+                        🔧 <strong>OPQ-7J51</strong> direcionado para manutenção preventiva técnica.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Script de Inicialização dos Componentes Gráficos -->
+    <script>
+        // Inicializar os ícones Lucide
+        lucide.createIcons();
+
+        // Renderizar o gráfico de consumo idêntico ao modelo solicitado
+        const ctx = document.getElementById('chartConsumo').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['BRA-2E19', 'CDE-3F25', 'FGH-4G31', 'IJK-5H37', 'LMN-6I43'],
+                datasets: [{
+                    label: 'Consumo Médio (km/L)',
+                    data: [3.8, 4.1, 3.2, 4.5, 3.9],
+                    backgroundColor: function(context) {
+                        const index = context.dataIndex;
+                        // Altera cor do veículo com consumo crítico (FGH-4G31) para vermelho igual à imagem original
+                        return index === 2 ? '#ef4444' : '#f97316';
+                    },
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    barPercentage: 0.5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#6b7280', font: { size: 11 } }
+                    },
+                    y: {
+                        min: 2,
+                        max: 5,
+                        grid: { color: '#1f2937' },
+                        ticks: { color: '#6b7280', font: { size: 11 }, stepSize: 1 }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
