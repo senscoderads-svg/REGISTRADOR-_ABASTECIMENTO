@@ -1,1 +1,0 @@
-export function Sidebar(){return <aside>Menu</aside>}

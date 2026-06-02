@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Controle de Abastecimento</title></head>
+<body>
+<h1>Controle de Abastecimento - MVP</h1>
+<form id="f">
+<input id="litros" placeholder="Litros"><br>
+<input id="preco" placeholder="Preço Litro"><br>
+<input id="hi" placeholder="Hodômetro Inicial"><br>
+<input id="hf" placeholder="Hodômetro Final"><br>
+<button>Salvar</button>
+</form>
+<pre id="r"></pre>
+<script>
+f.onsubmit=async(e)=>{
+e.preventDefault();
+const res=await fetch('/api/abastecimentos',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+litros:Number(litros.value),
+precoLitro:Number(preco.value),
+hodometroInicial:Number(hi.value),
+hodometroFinal:Number(hf.value)
+})
+});
+r.textContent=JSON.stringify(await res.json(),null,2);
+}
+</script>
+</body>
+</html>
