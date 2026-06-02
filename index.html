@@ -4,25 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetFuel - Gestão de Frota</title>
-    <!-- CDN de Recuperação do Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Icones robustos FontAwesome -->
+    <script src="https://tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Chart.js para renderização do gráfico -->
     <script src="https://jsdelivr.net"></script>
-    <style>
-        /* Estilos de redundância: Garante o visual escuro caso o CDN falhe */
-        body { background-color: #0f1319 !important; color: #f3f4f6 !important; margin: 0; display: flex; font-family: sans-serif; }
-        aside { background-color: #161b22 !important; border-right: 1px solid #1f2937; width: 16rem; padding: 1.25rem; flex-shrink: 0; }
-        main { flex: 1 1 0%; padding: 2rem; overflow-y: auto; }
-        .card-ff { background-color: #161b22 !important; border: 1px solid #1f2937; padding: 1.25rem; rounded-xl: 0.75rem; border-radius: 0.75rem; }
-    </style>
 </head>
-<body>
+<body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased">
 
     <!-- MENU LATERAL -->
-    <aside>
-        <div class="flex items-center gap-3 px-2 mb-6">
+    <aside class="w-64 bg-[#161b22] border-r border-gray-800 p-5 flex flex-col gap-6 shrink-0">
+        <div class="flex items-center gap-3 px-2 mb-2">
             <div class="bg-orange-500 text-white font-bold text-xl h-10 w-10 flex items-center justify-center rounded-lg shadow-md">FF</div>
             <div>
                 <h1 class="font-bold text-md tracking-wide text-white">FleetFuel</h1>
@@ -30,163 +20,294 @@
             </div>
         </div>
 
-        <nav class="flex flex-col gap-1">
+        <nav class="flex flex-col gap-1 flex-1">
             <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-2 px-2">Principal</p>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm">
+            <button onclick="mudarAba('dashboard')" id="btn-dashboard" class="menu-btn flex items-center gap-3 px-3 py-2.5 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm w-full text-left">
                 <i class="fa-solid fa-chart-pie w-4"></i> Dashboard
-            </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
-                <i class="fa-solid fa-gas-pump w-4"></i> Abastecimento
-            </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
-                <i class="fa-solid fa-list-check w-4"></i> Listagem
-            </a>
+            </button>
+            <button onclick="mudarAba('listagem')" id="btn-listagem" class="menu-btn flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm w-full text-left">
+                <i class="fa-solid fa-list-check w-4"></i> Listagem Abastecimentos
+            </button>
+
             <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mt-4 mb-2 px-2">Cadastros</p>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
+            <button onclick="mudarAba('veiculos')" id="btn-veiculos" class="menu-btn flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm w-full text-left">
                 <i class="fa-solid fa-truck w-4"></i> Veículos
-            </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm">
+            </button>
+            <button onclick="mudarAba('motoristas')" id="btn-motoristas" class="menu-btn flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 font-medium text-sm w-full text-left">
                 <i class="fa-solid fa-users w-4"></i> Motoristas
-            </a>
+            </button>
         </nav>
+        <div class="pt-4 border-t border-gray-800 text-xs text-gray-500 text-center">v1.0.0 • GitHub Mode</div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="flex-1 p-8">
+    <!-- CONTEÚDO PRINCIPAL (DASHBOARD) -->
+    <main id="aba-dashboard" class="aba-conteudo flex-1 p-8">
         <header class="flex justify-between items-center mb-8">
             <div>
                 <h2 class="text-2xl font-bold tracking-tight text-white">Dashboard</h2>
                 <p class="text-sm text-gray-500">Junho 2026 • Transportadora FastCargo</p>
             </div>
-            <div class="flex gap-3">
-                <button class="flex items-center gap-2 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                    <i class="fa-solid fa-download"></i> Exportar
-                </button>
-                <button onclick="toggleModal(true)" class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-orange-600/20">
-                    <i class="fa-solid fa-plus"></i> Novo Abastecimento
-                </button>
-            </div>
+            <button onclick="toggleModal('modal-abastecimento', true)" class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg cursor-pointer">
+                <i class="fa-solid fa-plus"></i> Novo Abastecimento
+            </button>
         </header>
 
         <!-- CARDS INDICADORES -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            <div class="card-ff">
+            <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Total Abastecido</span>
                     <div class="bg-orange-500/10 text-orange-500 p-2 rounded-lg"><i class="fa-solid fa-gas-pump"></i></div>
                 </div>
-                <h3 class="text-2xl font-bold tracking-tight">8.420 L</h3>
+                <h3 class="text-2xl font-bold">8.420 L</h3>
                 <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +12% vs mês ant.</span>
             </div>
-            <div class="card-ff">
+            <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Valor Total Gasto</span>
                     <div class="bg-blue-500/10 text-blue-500 p-2 rounded-lg font-bold text-sm h-8 w-8 flex items-center justify-center">R$</div>
                 </div>
-                <h3 class="text-2xl font-bold tracking-tight">R$ 47.836</h3>
+                <h3 class="text-2xl font-bold">R$ 47.836</h3>
                 <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +8% vs mês ant.</span>
             </div>
-            <div class="card-ff">
+            <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Abastecimentos</span>
                     <div class="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg"><i class="fa-solid fa-receipt"></i></div>
                 </div>
-                <h3 class="text-2xl font-bold tracking-tight">143</h3>
+                <h3 class="text-2xl font-bold">143</h3>
                 <span class="text-xs text-red-500 font-semibold mt-1 block">↓ -3% vs mês ant.</span>
             </div>
-            <div class="card-ff">
+            <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
                     <span class="text-sm font-medium text-gray-400">Consumo Médio</span>
                     <div class="bg-purple-500/10 text-purple-500 p-2 rounded-lg"><i class="fa-solid fa-chart-line"></i></div>
                 </div>
-                <h3 class="text-2xl font-bold tracking-tight">3,8 km/L</h3>
+                <h3 class="text-2xl font-bold">3,8 km/L</h3>
                 <span class="text-xs text-green-500 font-semibold mt-1 block">↑ +0.2 vs mês ant.</span>
             </div>
         </section>
 
         <!-- GRÁFICO -->
-        <section class="card-ff mb-8">
-            <h4 class="text-md font-bold mb-6 text-gray-400 tracking-wide">Consumo por Veículo (km/L)</h4>
-            <div class="h-64 w-full relative">
-                <canvas id="chartConsumo"></canvas>
-            </div>
+        <section class="bg-[#161b22] border border-gray-800 p-6 rounded-xl mb-8">
+            <h4 class="text-md font-bold mb-6 text-gray-400">Consumo por Veículo (km/L)</h4>
+            <div class="h-64 w-full relative"><canvas id="chartConsumo"></canvas></div>
         </section>
+    </main>
 
-        <!-- TABELA -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 card-ff">
-                <h4 class="text-md font-bold mb-4 tracking-wide text-gray-200">Últimos Abastecimentos</h4>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="border-b border-gray-800 text-gray-400 text-xs font-semibold uppercase tracking-wider">
-                                <th class="py-3 px-2">Data</th>
-                                <th class="py-3 px-2">Placa</th>
-                                <th class="py-3 px-2">Motorista</th>
-                                <th class="py-3 px-2">Litros</th>
-                                <th class="py-3 px-2">Valor</th>
-                                <th class="py-3 px-2">Consumo</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-corpo" class="divide-y divide-gray-800/50 text-gray-300">
-                            <tr class="hover:bg-gray-800/20 transition-colors">
-                                <td class="py-3.5 px-2">15/06/2026</td>
-                                <td class="py-3.5 px-2 font-semibold text-white">BRA-2E19</td>
-                                <td class="py-3.5 px-2 text-gray-400">João Silva</td>
-                                <td class="py-3.5 px-2">373 L</td>
-                                <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 2.126,10</td>
-                                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.8 km/L</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <!-- ABA: LISTAGEM DE ABASTECIMENTOS -->
+    <main id="aba-listagem" class="aba-conteudo hidden flex-1 p-8">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-white">Histórico de Abastecimentos</h2>
+                <p class="text-sm text-gray-500">Listagem completa e auditoria de consumo</p>
             </div>
-
-            <!-- ALERTAS -->
-            <div class="card-ff flex flex-col">
-                <h4 class="text-md font-bold mb-4 flex items-center gap-2 text-gray-200 tracking-wide">
-                    <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Alertas Ativos
-                </h4>
-                <div class="flex flex-col gap-3 flex-1">
-                    <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400">
-                        ⚠️ <strong>FGH-4G31</strong> com consumo baixo (3.2 km/L).
-                    </div>
-                </div>
+        </header>
+        <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl shadow-sm">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-800 text-gray-400 text-xs font-semibold uppercase tracking-wider">
+                            <th class="py-3 px-2">Data</th>
+                            <th class="py-3 px-2">Placa</th>
+                            <th class="py-3 px-2">Motorista</th>
+                            <th class="py-3 px-2">Litros</th>
+                            <th class="py-3 px-2">Valor</th>
+                            <th class="py-3 px-2">Consumo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo" class="divide-y divide-gray-800/50 text-gray-300">
+                        <tr class="hover:bg-gray-800/20">
+                            <td class="py-3.5 px-2">15/06/2026</td>
+                            <td class="py-3.5 px-2 font-semibold text-white">BRA-2E19</td>
+                            <td class="py-3.5 px-2 text-gray-400">João Silva</td>
+                            <td class="py-3.5 px-2">373 L</td>
+                            <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 2.126,10</td>
+                            <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.8 km/L</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
 
-    <!-- MODAL -->
+    <!-- ABA: CADASTRO DE VEÍCULOS -->
+    <main id="aba-veiculos" class="aba-conteudo hidden flex-1 p-8">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-white">Frota de Veículos</h2>
+                <p class="text-sm text-gray-500">Controle e cadastro de caminhões ativos</p>
+            </div>
+            <button onclick="toggleModal('modal-veiculo', true)" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer shadow-lg">
+                <i class="fa-solid fa-plus"></i> Novo Veículo
+            </button>
+        </header>
+        <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl">
+            <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-800 text-gray-400 text-xs font-semibold uppercase">
+                        <th class="py-3 px-2">Placa</th>
+                        <th class="py-3 px-2">Modelo/Marca</th>
+                        <th class="py-3 px-2">Ano</th>
+                        <th class="py-3 px-2">Capacidade Tanque</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-veiculos" class="divide-y divide-gray-800/50 text-gray-300">
+                    <tr>
+                        <td class="py-3.5 px-2 font-semibold text-white">BRA-2E19</td>
+                        <td class="py-3.5 px-2">Volvo FH 540</td>
+                        <td class="py-3.5 px-2">2023</td>
+                        <td class="py-3.5 px-2">540 Litros</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <!-- ABA: CADASTRO DE MOTORISTAS -->
+    <main id="aba-motoristas" class="aba-conteudo hidden flex-1 p-8">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-white">Motoristas</h2>
+                <p class="text-sm text-gray-500">Gestão e registro de condutores habilitados</p>
+            </div>
+            <button onclick="toggleModal('modal-motorista', true)" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium cursor-pointer shadow-lg">
+                <i class="fa-solid fa-plus"></i> Novo Motorista
+            </button>
+        </header>
+        <div class="bg-[#161b22] border border-gray-800 p-5 rounded-xl">
+            <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-800 text-gray-400 text-xs font-semibold uppercase">
+                        <th class="py-3 px-2">Nome Completo</th>
+                        <th class="py-3 px-2">CPF</th>
+                        <th class="py-3 px-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-motoristas" class="divide-y divide-gray-800/50 text-gray-300">
+                    <tr>
+                        <td class="py-3.5 px-2 font-semibold text-white">João Silva</td>
+                        <td class="py-3.5 px-2 text-gray-400">123.456.789-00</td>
+                        <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">Ativo</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- MODAL DE NOVO ABASTECIMENTO -->
     <div id="modal-abastecimento" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-[#161b22] border border-gray-800 rounded-xl max-w-lg w-full p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-gas-pump text-orange-500"></i> Registrar Abastecimento
-                </h3>
-                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-gas-pump text-orange-500"></i> Registrar Abastecimento</h3>
+                <button onclick="toggleModal('modal-abastecimento', false)" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
-                        <form onsubmit="salvarAbastecimento(event)" class="space-y-4">
+            <form onsubmit="salvarAbastecimento(event)" class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Placa</label>
-                        <input type="text" id="form-placa" required placeholder="XYZ-1234" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Placa</label>
+                        <input type="text" id="form-placa" required placeholder="BRA-2E19" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Motorista</label>
-                        <input type="text" id="form-motorista" required class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Motorista</label>
+                        <input type="text" id="form-motorista" required placeholder="Nome" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
                     </div>
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Litros</label>
+                        <input type="number" id="form-litros" required step="0.01" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Preço/L (R$)</label>
+                        <input type="number" id="form-preco" required step="0.01" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Km Percorrido</label>
+                    <input type="number" id="form-km" required class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                </div>
                 <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" onclick="toggleModal(false)" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium">Cancelar</button>
+                    <button type="button" onclick="toggleModal('modal-abastecimento', false)" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium">Cancelar</button>
                     <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium shadow-lg">Confirmar</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- MODAL DE NOVO VEÍCULO -->
+    <div id="modal-veiculo" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-[#161b22] border border-gray-800 rounded-xl max-w-lg w-full p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-truck text-orange-500"></i> Cadastrar Veículo</h3>
+                <button onclick="toggleModal('modal-veiculo', false)" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="salvarVeiculo(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Placa</label>
+                        <input type="text" id="v-placa" required placeholder="XYZ-1234" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Modelo/Marca</label>
+                        <input type="text" id="v-modelo" required placeholder="Ex: Scania R450" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Ano</label>
+                        <input type="number" id="v-ano" required placeholder="2024" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Capacidade (L)</label>
+                        <input type="number" id="v-cap" required placeholder="500" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="toggleModal('modal-veiculo', false)" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium shadow-lg">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE NOVO MOTORISTA -->
+    <div id="modal-motorista" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-[#161b22] border border-gray-800 rounded-xl max-w-lg w-full p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-users text-orange-500"></i> Cadastrar Motorista</h3>
+                <button onclick="toggleModal('modal-motorista', false)" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="salvarMotorista(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Nome Completo</label>
+                    <input type="text" id="m-nome" required placeholder="Nome do motorista" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">CPF</label>
+                    <input type="text" id="m-cpf" required placeholder="000.000.000-00" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="toggleModal('modal-motorista', false)" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium shadow-lg">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        function toggleModal(show) {
-            const modal = document.getElementById('modal-abastecimento');
+        function mudarAba(idAba) {
+            document.querySelectorAll('.aba-conteudo').forEach(aba => aba.classList.add('hidden'));
+            document.getElementById('aba-' + idAba).classList.remove('hidden');
+
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('bg-orange-500/10', 'text-orange-500');
+                                btn.classList.add('text-gray-400');
+            });
+            document.getElementById('btn-' + idAba).classList.add('bg-orange-500/10', 'text-orange-500');
+        }
+
+        function toggleModal(idModal, show) {
+            const modal = document.getElementById(idModal);
             if(show) modal.classList.remove('hidden');
             else modal.classList.add('hidden');
         }
@@ -195,19 +316,56 @@
             e.preventDefault();
             const placa = document.getElementById('form-placa').value.toUpperCase();
             const motorista = document.getElementById('form-motorista').value;
+            const litros = parseFloat(document.getElementById('form-litros').value);
+            const preco = parseFloat(document.getElementById('form-preco').value);
+            const km = parseFloat(document.getElementById('form-km').value);
+
+            const valorTotal = (litros * preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const consumo = (km / litros).toFixed(1);
+
             const tabelaCorpo = document.getElementById('tabela-corpo');
             const novaLinha = document.createElement('tr');
-            novaLinha.className = "hover:bg-gray-800/20 transition-colors";
+            novaLinha.className = "hover:bg-gray-800/20";
             novaLinha.innerHTML = `
                 <td class="py-3.5 px-2">${new Date().toLocaleDateString('pt-BR')}</td>
                 <td class="py-3.5 px-2 font-semibold text-white">${placa}</td>
                 <td class="py-3.5 px-2 text-gray-400">${motorista}</td>
-                <td class="py-3.5 px-2">350 L</td>
-                <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 1.980,00</td>
-                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">4.1 km/L</span></td>
+                <td class="py-3.5 px-2">${litros} L</td>
+                <td class="py-3.5 px-2 text-orange-400 font-semibold">${valorTotal}</td>
+                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">${consumo} km/L</span></td>
             `;
             tabelaCorpo.insertBefore(novaLinha, tabelaCorpo.firstChild);
-            toggleModal(false);
+            toggleModal('modal-abastecimento', false);
+            e.target.reset();
+        }
+
+        function salvarVeiculo(e) {
+            e.preventDefault();
+            const placa = document.getElementById('v-placa').value.toUpperCase();
+            const modelo = document.getElementById('v-modelo').value;
+            const ano = document.getElementById('v-ano').value;
+            const cap = document.getElementById('v-cap').value;
+
+            const tbody = document.getElementById('tabela-veiculos');
+            const row = document.createElement('tr');
+            row.className = "hover:bg-gray-800/20";
+            row.innerHTML = `<td class="py-3.5 px-2 font-semibold text-white">${placa}</td><td class="py-3.5 px-2">${modelo}</td><td class="py-3.5 px-2">${ano}</td><td class="py-3.5 px-2">${cap} Litros</td>`;
+            tbody.insertBefore(row, tbody.firstChild);
+            toggleModal('modal-veiculo', false);
+            e.target.reset();
+        }
+
+        function salvarMotorista(e) {
+            e.preventDefault();
+            const nome = document.getElementById('m-nome').value;
+            const cpf = document.getElementById('m-cpf').value;
+
+            const tbody = document.getElementById('tabela-motoristas');
+            const row = document.createElement('tr');
+            row.className = "hover:bg-gray-800/20";
+            row.innerHTML = `<td class="py-3.5 px-2 font-semibold text-white">${nome}</td><td class="py-3.5 px-2 text-gray-400">${cpf}</td><td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">Ativo</span></td>`;
+            tbody.insertBefore(row, tbody.firstChild);
+            toggleModal('modal-motorista', false);
             e.target.reset();
         }
 
