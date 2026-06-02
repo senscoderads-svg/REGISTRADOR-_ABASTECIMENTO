@@ -4,14 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetFuel - Gestão de Frota</title>
-    <!-- Tailwind CSS para Estilização Moderna -->
-    <script src="https://jsdelivr.net"></script>
+    <!-- Tailwind CSS Versão Estável Play CDN -->
+    <script src="https://tailwindcss.com"></script>
     <!-- Lucide Icons para os Ícones do Menu -->
     <script src="https://unpkg.com"></script>
     <!-- Chart.js para os Gráficos Responsivos -->
     <script src="https://jsdelivr.net"></script>
+    <script>
+        // Garante que o Tailwind entenda a paleta de cores customizada se necessário
+        tailwind.config = {
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
 </head>
 <body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased selection:bg-orange-500 selection:text-white">
+
 
     <!-- MENU LATERAL -->
     <aside class="w-64 bg-[#161b22] border-r border-gray-800 p-5 flex flex-col gap-6 shrink-0">
