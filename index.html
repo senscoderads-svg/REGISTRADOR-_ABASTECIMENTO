@@ -10,11 +10,6 @@
     <script src="https://unpkg.com"></script>
     <!-- Chart.js para os Gráficos Responsivos -->
     <script src="https://jsdelivr.net"></script>
-    <style>
-        /* Ajuste fino para manter o tema Dark Premium idêntico à imagem */
-        .bg-dark-sidebar { bg-color: #161b22; }
-        .bg-dark-body { bg-color: #0f1319; }
-    </style>
 </head>
 <body class="bg-[#0f1319] text-gray-100 min-h-screen flex font-sans antialiased selection:bg-orange-500 selection:text-white">
 
@@ -66,13 +61,13 @@
         <header class="flex justify-between items-center mb-8">
             <div>
                 <h2 class="text-2xl font-bold tracking-tight text-white">Dashboard</h2>
-                <p class="text-sm text-gray-500">Junho 2025 • Transportadora FastCargo</p>
+                <p class="text-sm text-gray-500">Junho 2026 • Transportadora FastCargo</p>
             </div>
             <div class="flex gap-3">
                 <button class="flex items-center gap-2 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer">
                     <i data-lucide="download" class="w-4 h-4"></i> Exportar
                 </button>
-                <button class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-orange-600/20 cursor-pointer">
+                <button onclick="toggleModal(true)" class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-orange-600/20 cursor-pointer">
                     <i data-lucide="plus" class="w-4 h-4"></i> Novo Abastecimento
                 </button>
             </div>
@@ -143,9 +138,9 @@
                                 <th class="py-3 px-2">Consumo</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-800/50 text-gray-300">
+                        <tbody id="tabela-corpo" class="divide-y divide-gray-800/50 text-gray-300">
                             <tr class="hover:bg-gray-800/20 transition-colors">
-                                <td class="py-3.5 px-2">15/06/25</td>
+                                <td class="py-3.5 px-2">15/06/2026</td>
                                 <td class="py-3.5 px-2 font-semibold text-white">BRA-2E19</td>
                                 <td class="py-3.5 px-2 text-gray-400">João Silva</td>
                                 <td class="py-3.5 px-2">373 L</td>
@@ -153,13 +148,13 @@
                                 <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.8 km/L</span></td>
                             </tr>
                             <tr class="hover:bg-gray-800/20 transition-colors">
-                                <td class="py-3.5 px-2">14/06/25</td>
+                                <td class="py-3.5 px-2">14/06/2026</td>
                                 <td class="py-3.5 px-2 font-semibold text-white">CDE-3F25</td>
                                 <td class="py-3.5 px-2 text-gray-400">Pedro Oliveira</td>
                                 <td class="py-3.5 px-2">391 L</td>
                                 <td class="py-3.5 px-2 text-orange-400 font-semibold">R$ 2.251,71</td>
-                                                                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.9 km/L</span></td>
-                            </tr>
+                                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">3.9 km/L</span></td>
+                                                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -179,16 +174,90 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <!-- Script de Inicialização dos Componentes Gráficos -->
+    <!-- MODAL DE NOVO ABASTECIMENTO -->
+    <div id="modal-abastecimento" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-[#161b22] border border-gray-800 rounded-xl max-w-lg w-full p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i data-lucide="fuel" class="text-orange-500"></i> Registrar Abastecimento
+                </h3>
+                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white cursor-pointer"><i data-lucide="x"></i></button>
+            </div>
+            <form onsubmit="salvarAbastecimento(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Placa</label>
+                        <input type="text" id="form-placa" required placeholder="XYZ-1234" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Motorista</label>
+                        <input type="text" id="form-motorista" required placeholder="Nome Completo" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Litros Abastecidos</label>
+                        <input type="number" id="form-litros" required step="0.01" placeholder="0.00" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Preço por Litro (R$)</label>
+                        <input type="number" id="form-preco" required step="0.01" placeholder="0.00" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Km Percorrido Estimado</label>
+                    <input type="number" id="form-km" required placeholder="Ex: 1200" class="w-full bg-[#0f1319] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="toggleModal(false)" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm font-medium cursor-pointer">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-500 text-sm font-medium cursor-pointer shadow-lg shadow-orange-600/10">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPTS DE INTERAÇÃO -->
     <script>
-        // Inicializar os ícones Lucide
         lucide.createIcons();
 
-        // Renderizar o gráfico de consumo idêntico ao modelo solicitado
+        function toggleModal(show) {
+            const modal = document.getElementById('modal-abastecimento');
+            if(show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function salvarAbastecimento(e) {
+            e.preventDefault();
+            const placa = document.getElementById('form-placa').value.toUpperCase();
+            const motorista = document.getElementById('form-motorista').value;
+            const litros = parseFloat(document.getElementById('form-litros').value);
+            const preco = parseFloat(document.getElementById('form-preco').value);
+            const km = parseFloat(document.getElementById('form-km').value);
+
+            const valorTotal = (litros * preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const consumo = (km / litros).toFixed(1);
+            const dataAtual = new Date().toLocaleDateString('pt-BR');
+
+            const tabelaCorpo = document.getElementById('tabela-corpo');
+            const novaLinha = document.createElement('tr');
+            novaLinha.className = "hover:bg-gray-800/20 transition-colors";
+            novaLinha.innerHTML = `
+                <td class="py-3.5 px-2">${dataAtual}</td>
+                <td class="py-3.5 px-2 font-semibold text-white">${placa}</td>
+                <td class="py-3.5 px-2 text-gray-400">${motorista}</td>
+                <td class="py-3.5 px-2">${litros} L</td>
+                <td class="py-3.5 px-2 text-orange-400 font-semibold">${valorTotal}</td>
+                <td class="py-3.5 px-2"><span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold">${consumo} km/L</span></td>
+            `;
+
+            tabelaCorpo.insertBefore(novaLinha, tabelaCorpo.firstChild);
+            toggleModal(false);
+            e.target.reset();
+        }
+
         const ctx = document.getElementById('chartConsumo').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
@@ -198,9 +267,7 @@
                     label: 'Consumo Médio (km/L)',
                     data: [3.8, 4.1, 3.2, 4.5, 3.9],
                     backgroundColor: function(context) {
-                        const index = context.dataIndex;
-                        // Altera cor do veículo com consumo crítico (FGH-4G31) para vermelho igual à imagem original
-                        return index === 2 ? '#ef4444' : '#f97316';
+                        return context.dataIndex === 2 ? '#ef4444' : '#f97316';
                     },
                     borderRadius: 6,
                     borderSkipped: false,
@@ -210,20 +277,10 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: '#6b7280', font: { size: 11 } }
-                    },
-                    y: {
-                        min: 2,
-                        max: 5,
-                        grid: { color: '#1f2937' },
-                        ticks: { color: '#6b7280', font: { size: 11 }, stepSize: 1 }
-                    }
+                    x: { grid: { display: false }, ticks: { color: '#6b7280', font: { size: 11 } } },
+                    y: { min: 2, max: 5, grid: { color: '#1f2937' }, ticks: { color: '#6b7280', font: { size: 11 }, stepSize: 1 } }
                 }
             }
         });
